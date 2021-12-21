@@ -8,8 +8,8 @@ mp_pose = mp.solutions.pose
 inputGoal = int(input("Enter your rep goal for each arm: "))
 
 cap = cv2.VideoCapture(0)
-# cap.set(3,1280)
-# cap.set(4,960)
+cap.set(3,1280)
+cap.set(4,960)
 
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
