@@ -29,7 +29,7 @@ with mp_facedetector.FaceDetection(min_detection_confidence=0.7) as face_detecti
 
         success, image = cap.read()
         
-        imgHeight, imgWidth, channels = img.shape
+        # imgHeight, imgWidth, channels = img.shape
 
         start = time.time()
 
@@ -61,19 +61,19 @@ with mp_facedetector.FaceDetection(min_detection_confidence=0.7) as face_detecti
         # -------------- Depth map from neural net ---------------------------
         # Create Blob from Input Image
         # MiDaS v2.1 Large ( Scale : 1 / 255, Size : 384 x 384, Mean Subtraction : ( 123.675, 116.28, 103.53 ), Channels Order : RGB )
-        blob = cv2.dnn.blobFromImage(img, 1/255., (384,384), (123.675, 116.28, 103.53), True, False)
+        # blob = cv2.dnn.blobFromImage(img, 1/255., (384,384), (123.675, 116.28, 103.53), True, False)
 
         # MiDaS v2.1 Small ( Scale : 1 / 255, Size : 256 x 256, Mean Subtraction : ( 123.675, 116.28, 103.53 ), Channels Order : RGB )
         #blob = cv2.dnn.blobFromImage(img, 1/255., (256,256), (123.675, 116.28, 103.53), True, False)
 
         # Set input to the model
-        model.setInput(blob)
+        # model.setInput(blob)
 
         # Make forward pass in model
         depth_map = model.forward()
         
         depth_map = depth_map[0,:,:]
-        depth_map = cv2.resize(depth_map, (imgWidth, imgHeight))
+        # depth_map = cv2.resize(depth_map, (imgWidth, imgHeight))
 
         # Normalize the output
         depth_map = cv2.normalize(depth_map, None, 0, 1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
