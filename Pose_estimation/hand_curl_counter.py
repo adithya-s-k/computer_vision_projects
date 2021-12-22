@@ -5,7 +5,8 @@ import time
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-inputGoal = int(input("Enter your rep goal for each arm: "))
+# inputGoal = int(input("Enter your rep goal for each arm: "))
+inputGoal = 10
 
 cap = cv2.VideoCapture(0)
 cap.set(3,1280)
@@ -97,26 +98,38 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         # Render curl counter for right hand
         # Setup status box for right hand
-        cv2.rectangle(image, (0,0), (140,55), (245,117,16), -1)
+        cv2.rectangle(image, (0,0), (70,80), (245,117,16), -1)
+        # cv2.rectangle(image, (0,35), (220,80), (245,117,16), -1)
+        cv2.rectangle(image, (75,0), (220,80), (245,117,16), -1)
         # Rep data
-        cv2.putText(image, 'REPS', (10,20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(counter_r), (10,45), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'REPS', (5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, str(counter_r), (10,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         # Stage data
-        cv2.putText(image, 'STAGE', (60,20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, stage_r, (60,45), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'STAGE', (80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, stage_r, (80,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         
         
         # Render curl counter for left hand
         # Setup status box for left hand
-        cv2.rectangle(image, (500,0), (640,55), (245,117,0), -1)# Rectange properties rectangle(image, start_point, end_point, color, thickness) 
+        cv2.rectangle(image, (1280-220,0), (1280-150,80), (245,117,16), -1)
+        # cv2.rectangle(image, (0,35), (220,80), (245,117,16), -1)
+        cv2.rectangle(image, (1280-145,0), (1280,80), (245,117,16), -1)
         # Rep data
-        cv2.putText(image, 'REPS', (510,20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, (0,0,0), 1, cv2.LINE_AA)#cv2.putText(image,  text_to_show,  (20, 40),  fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL,  fontScale=1,  color=(255, 255, 255))
-        cv2.putText(image, str(counter), (510,45), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'REPS', (1280-220+5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, str(counter), (1280-220+10,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         # Stage data
-        cv2.putText(image, 'STAGE', (560,20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, stage, (560,45), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'STAGE', (1280-220+80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, stage, (1280-220+80,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         
-        
+        #for the instructor
+        cv2.rectangle(image, (730,900), (1280,960), (245,117,16), -1)
+        if counter > counter_r:
+            cv2.putText(image, 'Do Left arm next', (750,945), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
+        elif counter_r > counter:
+            cv2.putText(image, 'Do Right arm next', (750,945), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
+        elif counter == inputGoal and counter_r == inputGoal:
+            cv2.putText(image, 'GOOD JOB', (540,900), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 2, cv2.LINE_AA)
+            
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
@@ -135,14 +148,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             print("MOVE LEFT")'''
             
         if counter == inputGoal and counter_r == inputGoal:
-            print("GOOD JOB")
-            cv2.putText(image, 'GOOD JOB', (300,200), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 2, cv2.LINE_AA)
             time.sleep(5)
             break
-        elif counter > counter_r:
-            print("Right arm next")
-        elif counter_r > counter:
-            print("Left arm next")
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
