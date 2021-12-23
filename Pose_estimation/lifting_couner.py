@@ -5,6 +5,8 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
+cap.set(3,1280)
+cap.set(4,960)
 
 def calculate_angle(a,b,c):
     a = np.array(a) # First
@@ -18,6 +20,14 @@ def calculate_angle(a,b,c):
         angle = 360-angle
         
     return angle 
+
+def calculate_distance(a,b):
+    a = np.array(a)
+    b = np.array(b)
+    
+    distance = ((((b[0] - a[0])**(2)) - ((b[1] - a[1])**(2)))**(0.5))
+    
+    return distance
 
 # Curl counter variables
 counter = 0 
@@ -45,29 +55,36 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             
             # Get coordinates
             shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-            elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-            wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
-            
+            hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
+            # wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+            leg = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
             # Calculate angle
-            angle = calculate_angle(shoulder, elbow, wrist)
-            
+            angle = calculate_angle(shoulder, hip, leg)
+            print(angle)
             # Visualize angle
             cv2.putText(image, str(angle), 
-                           tuple(np.multiply(elbow, [640, 480]).astype(int)), 
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
+                           tuple(np.multiply(hip, [640, 480]).astype(int)), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2, cv2.LINE_AA
                                 )
             
-            # Curl counter logic
+            '''# Curl counter logic
             if angle > 160:
                 stage = "down"
             if angle < 30 and stage =='down':
                 stage="up"
                 counter +=1
-                print(counter)
+                print(counter)'''
+                
+            '''hand = [landmarks[mp_pose.PoseLandmark.LEFT_PINKY.value].x,landmarks[mp_pose.PoseLandmark.LEFT_PINKY.value].y]
+            leg = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+            
+            # Calculate angle
+            distance_cal = calculate_distance(hand,leg)
+            print(distance_cal)'''
                        
         except:
             pass
-        
+        '''
         # Render curl counter
         # Setup status box
         cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
@@ -85,7 +102,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         cv2.putText(image, stage, 
                     (60,60), 
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        
+        '''
         
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
