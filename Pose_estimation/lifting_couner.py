@@ -24,6 +24,8 @@ def calculate_angle(a,b,c):
 def calculate_distance(a,b):
     a = np.array(a)
     b = np.array(b)
+    print(a)
+    print(b)
     
     distance = ((((b[0] - a[0])**(2)) - ((b[1] - a[1])**(2)))**(0.5))
     
@@ -53,7 +55,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             landmarks = results.pose_landmarks.landmark
             
-            # Get coordinates
+            '''# Get coordinates
             shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
             hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
             # wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
@@ -66,7 +68,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                            tuple(np.multiply(hip, [640, 480]).astype(int)), 
                            cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2, cv2.LINE_AA
                                 )
-            
+            '''
             '''# Curl counter logic
             if angle > 160:
                 stage = "down"
@@ -75,13 +77,20 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                 counter +=1
                 print(counter)'''
                 
-            '''hand = [landmarks[mp_pose.PoseLandmark.LEFT_PINKY.value].x,landmarks[mp_pose.PoseLandmark.LEFT_PINKY.value].y]
-            leg = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+            hand = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+            # hand_r = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+            leg = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+            
             
             # Calculate angle
-            distance_cal = calculate_distance(hand,leg)
-            print(distance_cal)'''
-                       
+            distance_cal = (calculate_distance(hand,leg)*100)
+            print(distance_cal)
+            
+            #Visualize angle
+            cv2.putText(image, str(distance_cal), 
+                           tuple(np.multiply(hand, [640, 480]).astype(int)), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2, cv2.LINE_AA
+                                )           
         except:
             pass
         '''
