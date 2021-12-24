@@ -3,9 +3,11 @@ import cv2
 import numpy as np
 import uuid
 import os
+from matplotlib import pyplot as plt
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
+joint_list = [[8,7,6], [12,11,10], [16,15,14], [20,19,18]]
 
 def get_label(index, hand, results):
     output = None
@@ -26,6 +28,26 @@ def get_label(index, hand, results):
             
     return output
 
+def draw_finger_angles(image, results, joint_list):
+    
+    # Loop through hands
+    for hand in results.multi_hand_landmarks:
+        #Loop through joint sets 
+        for joint in joint_list:
+            a = np.array([hand.landmark[joint[0]].x, hand.landmark[joint[0]].y]) # First coord
+            b = np.array([hand.landmark[joint[1]].x, hand.landmark[joint[1]].y]) # Second coord
+            c = np.array([hand.landmark[joint[2]].x, hand.landmark[joint[2]].y]) # Third coord
+            
+            radians = np.arctan2(c[1] - b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
+            angle = np.abs(radians*180.0/np.pi)
+            
+            if angle > 180.0:
+                angle = 360-angle
+                
+            cv2.putText(image, str(round(angle, 2)), tuple(np.multiply(b, [640, 480]).astype(int)),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+    return image
+
 cap = cv2.VideoCapture(0)
 cap.set(3,1280)
 cap.set(4,960)
@@ -36,7 +58,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5) a
         
         # BGR 2 RGB
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+        
         # Set flag
         image.flags.writeable = False
         
@@ -64,6 +86,9 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5) a
                 if get_label(num, hand, results):
                     text, coord = get_label(num, hand, results)
                     cv2.putText(image, text, coord, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            
+            # Draw angles to image from joint list
+            draw_finger_angles(image, results, joint_list)
             
         # Save our image    
         #cv2.imwrite(os.path.join('Output Images', '{}.jpg'.format(uuid.uuid1())), image)
