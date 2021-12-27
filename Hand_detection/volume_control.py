@@ -25,8 +25,8 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 # volume.GetMute()
 # volume.GetMasterVolumeLevel()
 volRange = volume.GetVolumeRange()
-minVol = volRange&#91;0]
-maxVol = volRange&#91;1]
+minVol = volRange& # 91;0]
+maxVol = volRange& # 91;1]
 vol = 0
 volBar = 400
 volPer = 0
