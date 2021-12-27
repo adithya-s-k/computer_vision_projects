@@ -1,4 +1,5 @@
 import cv2
+import math
 import mediapipe as mp
 import numpy as np
 import time as time
@@ -11,7 +12,8 @@ def calculate_distance(a,b):
     print(a)
     print(b)
     
-    distance = ((((b[0] - a[0])**(2)) - ((b[1] - a[1])**(2)))**(0.5))
+    #distance = ((((b[0] - a[0])**(2)) - ((b[1] - a[1])**(2)))**(0.5))
+    distance = math.hypot(b[0] - a[0], b[1] - a[1])
     
     return distance
 
