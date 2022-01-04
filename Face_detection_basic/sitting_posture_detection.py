@@ -2,12 +2,14 @@ import cv2
 import math
 import mediapipe as mp
 import numpy as np
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
+height_cam = 640
 cap.set(3,1280)
-cap.set(4,960)
+cap.set(4,height_cam)
 
 def calculate_angle(a,b,c):
     a = np.array(a) # First
@@ -58,32 +60,12 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         cv2.rectangle(image, (0,0), (1280,70), (245,117,16), -1)
         cv2.putText(image, str(distance_cal), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        cv2.rectangle(image, (0,890), (1280,960), (245,117,16), -1)
         
+        cv2.rectangle(image, (730,height_cam-60), (1280,height_cam), (245,117,16), -1)
         if distance_cal < 20:
-            cv2.putText(image,"YOUR ARE CROUCHING", (20,950), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+            cv2.putText(image, "YOUR ARE CROUCHING", (750,height_cam-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
         else:
-            cv2.putText(image,"YOUR ARE UP STRAIGHT", (20,950), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        
-        '''
-        # Render curl counter
-        # Setup status box
-        cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        
-        # Rep data
-        cv2.putText(image, 'REPS', (15,12), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(counter), 
-                    (10,60), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        
-        # Stage data
-        cv2.putText(image, 'STAGE', (65,12), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, stage, 
-                    (60,60), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        '''
+            cv2.putText(image,"YOUR ARE UP STRAIGHT", (750,height_cam-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
 
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 

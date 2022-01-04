@@ -2,15 +2,17 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import time
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # inputGoal = int(input("Enter your rep goal for each arm: "))
 inputGoal = 10
-
+width_cam = 720
+height_cam = 640
 cap = cv2.VideoCapture(0)
-cap.set(3,1280)
-cap.set(4,960)
+cap.set(3,width_cam)
+cap.set(4,height_cam)
 
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -111,24 +113,24 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         # Render curl counter for left hand
         # Setup status box for left hand
-        cv2.rectangle(image, (1280-220,0), (1280-150,80), (245,117,16), -1)
+        cv2.rectangle(image, (width_cam-220,0), (width_cam-150,80), (245,117,16), -1)
         # cv2.rectangle(image, (0,35), (220,80), (245,117,16), -1)
-        cv2.rectangle(image, (1280-145,0), (1280,80), (245,117,16), -1)
+        cv2.rectangle(image, (width_cam-145,0), (width_cam,80), (245,117,16), -1)
         # Rep data
-        cv2.putText(image, 'REPS', (1280-220+5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(counter), (1280-220+10,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'REPS', (width_cam-220+5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, str(counter), (width_cam-220+10,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         # Stage data
-        cv2.putText(image, 'STAGE', (1280-220+80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, stage, (1280-220+80,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'STAGE', (width_cam-220+80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, stage, (width_cam-220+80,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         
         #for the instructor
-        cv2.rectangle(image, (730,900), (1280,960), (245,117,16), -1)
+        cv2.rectangle(image, (730,height_cam-60), (1280,height_cam), (245,117,16), -1)
         if counter > counter_r:
-            cv2.putText(image, 'Do Left arm next', (750,945), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
+            cv2.putText(image, 'Do Left arm next', (750,height_cam-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
         elif counter_r > counter:
-            cv2.putText(image, 'Do Right arm next', (750,945), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
+            cv2.putText(image, 'Do Right arm next', (750,height_cam-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
         elif counter == inputGoal and counter_r == inputGoal:
-            cv2.putText(image, 'GOOD JOB', (540,900), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 2, cv2.LINE_AA)
+            cv2.putText(image, 'GOOD JOB', (540,height_cam-60), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 2, cv2.LINE_AA)
             
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
