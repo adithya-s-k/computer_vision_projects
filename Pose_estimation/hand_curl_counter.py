@@ -14,10 +14,6 @@ cap = cv2.VideoCapture(0)
 cap.set(3,width_cam)
 cap.set(4,height_cam)
 
-width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-print(width, height)
-
 def calculate_angle(a,b,c):#shoulder, elbow, wrist
     a = np.array(a) # First
     b = np.array(b) # Mid
