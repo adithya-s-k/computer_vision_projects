@@ -8,11 +8,11 @@ mp_pose = mp.solutions.pose
 
 # inputGoal = int(input("Enter your rep goal for each arm: "))
 inputGoal = 10
-width_cam = 720
-height_cam = 640
+width_cam = 1280
+height_cam = 900
 cap = cv2.VideoCapture(0)
 cap.set(3,width_cam)
-cap.set(4,height_cam)
+cap.set(4,1080)
 
 def calculate_angle(a,b,c):#shoulder, elbow, wrist
     a = np.array(a) # First
