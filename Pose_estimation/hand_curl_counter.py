@@ -12,7 +12,7 @@ width_cam = 1280
 height_cam = 900
 cap = cv2.VideoCapture(0)
 cap.set(3,width_cam)
-cap.set(4,1080)
+cap.set(4,height_cam)
 
 def calculate_angle(a,b,c):#shoulder, elbow, wrist
     a = np.array(a) # First
@@ -25,15 +25,14 @@ def calculate_angle(a,b,c):#shoulder, elbow, wrist
         angle = 360-angle    
     return angle 
 
-
-# Curl counter variables
-counter = 0 
-counter_r = 0
-stage = None
-stage_r = None
-
 ## Setup mediapipe instance
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+    # Curl counter variables
+    counter = 0 
+    counter_r = 0
+    stage = None
+    stage_r = None
+    
     while cap.isOpened():
         ret, frame = cap.read()
         
@@ -96,31 +95,31 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         # Render curl counter for right hand
         # Setup status box for right hand
-        cv2.rectangle(image, (0,0), (70,80), (245,117,16), -1)
+        cv2.rectangle(image, (0,0), (70,80), (0,0,0), -1)
         # cv2.rectangle(image, (0,35), (220,80), (245,117,16), -1)
-        cv2.rectangle(image, (75,0), (220,80), (245,117,16), -1)
+        cv2.rectangle(image, (75,0), (220,80), (0,0,0), -1)
         # Rep data
-        cv2.putText(image, 'REPS', (5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, 'REPS', (5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
         cv2.putText(image, str(counter_r), (10,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         # Stage data
-        cv2.putText(image, 'STAGE', (80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, 'STAGE', (80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
         cv2.putText(image, stage_r, (80,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         
         
         # Render curl counter for left hand
-        # Setup status box for left hand
-        cv2.rectangle(image, (width_cam-220,0), (width_cam-150,80), (245,117,16), -1)
+        # Setup status box for left 
+        cv2.rectangle(image, (width_cam-220,0), (width_cam-150,80), (0,0,0), -1)
         # cv2.rectangle(image, (0,35), (220,80), (245,117,16), -1)
-        cv2.rectangle(image, (width_cam-145,0), (width_cam,80), (245,117,16), -1)
+        cv2.rectangle(image, (width_cam-145,0), (width_cam,80), (0,0,0), -1)
         # Rep data
-        cv2.putText(image, 'REPS', (width_cam-220+5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, 'REPS', (width_cam-220+5,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
         cv2.putText(image, str(counter), (width_cam-220+10,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         # Stage data
-        cv2.putText(image, 'STAGE', (width_cam-220+80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, 'STAGE', (width_cam-220+80,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
         cv2.putText(image, stage, (width_cam-220+80,65), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 1, cv2.LINE_AA)
         
         #for the instructor
-        cv2.rectangle(image, (730,height_cam-60), (1280,height_cam), (245,117,16), -1)
+        cv2.rectangle(image, (730,height_cam-60), (1280,height_cam), (0,0,0), -1)
         if counter > counter_r:
             cv2.putText(image, 'Do Left arm next', (750,height_cam-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
         elif counter_r > counter:
