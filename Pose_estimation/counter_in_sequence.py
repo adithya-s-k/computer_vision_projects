@@ -23,14 +23,13 @@ def calculate_distance(a,b):
     print(b)
 
 def curl_counter(goal_curls):
+    inputGoal = goal_curls
+    # Curl counter variables
+    counter = 0 
+    counter_r = 0
+    stage = None
+    stage_r = None
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-        inputGoal = goal_curls
-        # Curl counter variables
-        counter = 0 
-        counter_r = 0
-        stage = None
-        stage_r = None
-        
         while cap.isOpened():
             ret, frame = cap.read()
             # Recolor image to RGB
@@ -125,7 +124,7 @@ def curl_counter(goal_curls):
                                     mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
                                     )               
                 
-            cv2.imshow('Mediapipe Feed', image)
+            cv2.imshow('CURL COUNTER', image)
             
             
             #Tells is you are standing in range
@@ -135,19 +134,20 @@ def curl_counter(goal_curls):
             if int(shoulder_l[0]) < 0.3:
                 cv2.putText(image, 'MOVE LEFT', (100,100), cv2.FONT_HERSHEY_COMPLEX_SMALL, 10, (0,0,0), 2, cv2.LINE_AA)
                 print("MOVE LEFT")'''
+    
             if counter == inputGoal and counter_r == inputGoal:
                 break
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
     cv2.destroyAllWindows() 
 def push_up_counter(goal_push):
-    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-        inputGoal = goal_push
-        #initializing variables to count repetitions
-        counter_l=0
-        counter_r=0
-        stage_=None
-        stage_r=None              
+    inputGoal = goal_push
+    #initializing variables to count repetitions
+    counter_l=0
+    counter_r=0
+    stage_=None
+    stage_r=None  
+    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:            
         while cap.isOpened():
             ret, frame = cap.read()
             # Recolor image to RGB

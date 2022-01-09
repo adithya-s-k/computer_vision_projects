@@ -7,7 +7,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # inputGoal = int(input("Enter your rep goal for each arm: "))
-inputGoal = 10
+inputGoal = 2
 width_cam = 1280
 height_cam = 900
 cap = cv2.VideoCapture(0)
@@ -25,14 +25,14 @@ def calculate_angle(a,b,c):#shoulder, elbow, wrist
         angle = 360-angle    
     return angle 
 
+# Curl counter variables
+
 ## Setup mediapipe instance
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-    # Curl counter variables
     counter = 0 
     counter_r = 0
     stage = None
     stage_r = None
-    
     while cap.isOpened():
         ret, frame = cap.read()
         
@@ -145,7 +145,6 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             print("MOVE LEFT")'''
             
         if counter == inputGoal and counter_r == inputGoal:
-            time.sleep(5)
             break
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
