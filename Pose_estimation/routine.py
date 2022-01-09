@@ -135,10 +135,12 @@ def curl_counter(goal_curls):
                 cv2.putText(image, 'MOVE LEFT', (100,100), cv2.FONT_HERSHEY_COMPLEX_SMALL, 10, (0,0,0), 2, cv2.LINE_AA)
                 print("MOVE LEFT")'''
     
-            if counter == inputGoal and counter_r == inputGoal:
+            if int(counter) >= inputGoal and int(counter_r) >= inputGoal:
                 break
+
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
+
     cv2.destroyAllWindows() 
 def push_up_counter(goal_push):
     inputGoal = goal_push
@@ -248,7 +250,7 @@ def push_up_counter(goal_push):
                                     mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
                                     )               
             cv2.imshow('Mediapipe Feed', image)
-            if counter_l == inputGoal and counter_r == inputGoal:
+            if int(counter_l) >= inputGoal and int(counter_r) >= inputGoal:
                 time.sleep(5)
                 break
             if cv2.waitKey(10) & 0xFF == ord('q'):
@@ -299,17 +301,17 @@ def squat_counter(goal_squat):
                 angle_r = calculate_angle(hip_r, knee_r, ankle_r)
                 
                 # Curl counter logic for left
-                if angle > 160:
+                if angle > 150:
                     stage ="Up"
-                if angle < 40 and stage == "Up":
+                if angle < 60 and stage == "Up":
                     stage = "Down"
                     counter += 1
                     print("Left :", counter)
 
                 # Curl counter logic for right
-                if angle_r > 160:
+                if angle_r > 150:
                     stage_r = "Up"
-                if angle_r < 40 and stage_r =="Up":
+                if angle_r < 60 and stage_r =="Up":
                     stage_r="Down"
                     counter_r +=1
                     print("Right : ",counter_r)                            
@@ -353,21 +355,21 @@ def squat_counter(goal_squat):
 
             cv2.imshow('Mediapipe Feed', image)
 
-            if counter == inputGoal and counter_r == inputGoal:
+            if int(counter) >= inputGoal and int(counter_r) >= inputGoal:
                 print("GOOD JOB")
                 cv2.putText(image, 'GOOD JOB', (300,200), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 2, cv2.LINE_AA)
                 break
+                
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
     cv2.destroyAllWindows()
-
+    return "Done"
 
 cap = cv2.VideoCapture(0)
 cap.set(3,1280)
 cap.set(4,960)
 
 curl_counter(difficulty)
-time.sleep(5)
 squat_counter(difficulty)
 
 cap.release()
