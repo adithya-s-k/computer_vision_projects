@@ -46,13 +46,13 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         w = calculate_distance(shoulder_rl,shoulder_ll)
         W = 6.0
-
+        '''print("Distance",w)
         # Finding the Focal Length
-        # d = 80
-        # f = (w*d)/W
-        # print("Focal Length :",f)
+        d = 80
+        f = (w*d)/W
+        print("Focal Length :",f)'''
 
-        f = 6.10
+        f = 6.6
         d = (W * f) / w
         print("DISTANCE :",d)
 
