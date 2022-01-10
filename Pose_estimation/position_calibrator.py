@@ -44,18 +44,21 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         except:
             pass
         
-        w = calculate_distance(shoulder_rl,shoulder_ll)
+        distance_points = calculate_distance(shoulder_rl,shoulder_ll)
         W = 6.0
         '''print("Distance",w)
         # Finding the Focal Length
         d = 80
         f = (w*d)/W
         print("Focal Length :",f)'''
+        # the values of W and f are for my camera only
+        focal_length = 6.6
+        depth = (W * focal_length) / distance_points
+        print("DISTANCE :",depth )
 
-        f = 6.6
-        d = (W * f) / w
-        print("DISTANCE :",d)
 
+        cv2.rectangle(image, (0,0), (550,60), (0,0,0), -1)
+        cv2.putText(image, str(depth) , (20,45), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
         cv2.rectangle(image, (730,960-60), (1280,960), (0,0,0), -1)
         cv2.rectangle(image, (0,960-60), (550,960), (0,0,0), -1)
         cv2.putText(image, str(shoulder_l) , (20,960-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
