@@ -143,7 +143,7 @@ def curl_counter(goal_curls):
                 cv2.putText(image, 'MOVE LEFT', (100,100), cv2.FONT_HERSHEY_COMPLEX_SMALL, 10, (0,0,0), 2, cv2.LINE_AA)
                 print("MOVE LEFT")'''
     
-            if int(counter) >= inputGoal and int(counter_r) >= inputGoal:
+            if int(counter) >= int(inputGoal) and int(counter_r) >= int(inputGoal):
                 break
 
             if cv2.waitKey(10) & 0xFF == ord('q'):
@@ -258,7 +258,7 @@ def push_up_counter(goal_push):
                                     mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
                                     )               
             cv2.imshow('Mediapipe Feed', image)
-            if int(counter_l) >= inputGoal and int(counter_r) >= inputGoal:
+            if int(counter_l) >= int(inputGoal) and int(counter_r) >= int(inputGoal):
                 time.sleep(5)
                 break
             if cv2.waitKey(10) & 0xFF == ord('q'):
@@ -363,7 +363,7 @@ def squat_counter(goal_squat):
 
             cv2.imshow('Mediapipe Feed', image)
 
-            if int(counter) >= inputGoal and int(counter_r) >= inputGoal:
+            if int(counter) >= int(inputGoal) and int(counter_r) >= int(inputGoal):
                 print("GOOD JOB")
                 cv2.putText(image, 'GOOD JOB', (300,200), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,0,0), 2, cv2.LINE_AA)
                 break
