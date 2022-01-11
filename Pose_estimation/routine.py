@@ -25,7 +25,7 @@ def exercise_callback():
         time.sleep(5)
         running_counter(difficulty)
         time.sleep(5)
-        squat_counter(difficulty)
+        squat_counter(1)
         
         cap.release()
     
