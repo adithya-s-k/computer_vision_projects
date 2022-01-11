@@ -2,7 +2,9 @@ from CounterModule import *
 from tkinter import *
 import tkinter as tk
 import tkinter.ttk as ttk
+import tkinter.font as font
 import time
+from PIL import Image, ImageTk
 
 root = tk.Tk(className='Main MENU')
 root.geometry("620x1000")
@@ -96,7 +98,13 @@ L2.place(x=310, y=70, anchor="center")
 L3 = ttk.Label(root, text="What do you want to do?",font=("Helvetica",18,"bold"))
 L3.place(x=310, y=170, anchor="center")
 
-MyButton1 = ttk.Button(root, text="Full Body Warm UP", command=exercise_callback)
+s = ttk.Style()
+s.configure('my.TButton', font=('Helvetica', 13 ,"bold"))
+
+
+buttonPhoto = ImageTk.PhotoImage(Image.open(r"C:\Programming\Python_Projects\Image_processing_projects\Pose_estimation\program7__b.jpg"))
+
+MyButton1 = Button(root, text="Warm UP", image = buttonPhoto , command=exercise_callback , borderwidth=0 )
 MyButton1.grid(row=4, column=4)
 MyButton1.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=200)
 
