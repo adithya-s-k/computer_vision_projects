@@ -17,19 +17,43 @@ def options():
     diff.maxsize(620,1000)
 
     def easy():
-        global entry1
         entry1 = 5
         diff.destroy()
+        difficulty = entry1  
+        print(difficulty)
+        curl_counter(difficulty)
+        time.sleep(5)
+        running_counter(difficulty)
+        time.sleep(5)
+        squat_counter(difficulty)
+        
+        cap.release()
     
     def moderate():
-        global entry1
         entry1 = 10
         diff.destroy()
-    
+        difficulty = entry1  
+        print(difficulty)
+        curl_counter(difficulty)
+        time.sleep(5)
+        running_counter(difficulty)
+        time.sleep(5)
+        squat_counter(difficulty)
+
+        cap.release()
     def hard():
-        global entry1
         entry1 = 15
         diff.destroy()
+        difficulty = entry1  
+        print(difficulty)
+        curl_counter(difficulty)
+        time.sleep(5)
+        running_counter(difficulty)
+        time.sleep(5)
+        squat_counter(difficulty)
+        time.sleep(5)
+        push_up_counter(difficulty)
+        cap.release()
 
     L1 = ttk.Label(diff, text="AIWA",font=("Helvetica",36,"bold"))
     L1.place(x=310, y=30, anchor="center")
@@ -57,6 +81,9 @@ def options():
 
     diff.mainloop()
 
+def posture_detector_callback():
+    posture_detector()
+
 L1 = ttk.Label(root, text="AIWA",font=("Helvetica",36,"bold"))
 L1.place(x=310, y=30, anchor="center")
 
@@ -72,7 +99,7 @@ MyButton1 = ttk.Button(root, text="Full Body Warm UP", command=options)
 MyButton1.grid(row=4, column=4)
 MyButton1.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=200)
 
-MyButton2 = ttk.Button(root, text="Sitting Posture Detection")#, command=callback)
+MyButton2 = ttk.Button(root, text="Sitting Posture Detection", command= posture_detector_callback)
 MyButton2.grid(row=4, column=4)
 MyButton2.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=450)
 
@@ -81,9 +108,3 @@ MyButton3.grid(row=4, column=4)
 MyButton3.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=700)
 
 root.mainloop()
-
-difficulty = entry1  
-
-print(difficulty)
-squat_counter(difficulty)
-cap.release()
