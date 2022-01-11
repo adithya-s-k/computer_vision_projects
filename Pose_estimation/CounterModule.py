@@ -92,6 +92,9 @@ def curl_counter(goal_curls):
             except:
                 pass
             
+            cv2.rectangle(image, (440,0), (840,60), (0,0,0), -1)
+            cv2.putText(image, 'BISEP CURLS', (460,25), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255,255,255), 1, cv2.LINE_AA)
+
             # Render curl counter for right hand
             # Setup status box for right hand
             cv2.rectangle(image, (0,0), (70,80), (0,0,0), -1)
@@ -509,11 +512,11 @@ def posture_detector():
             cv2.rectangle(image, (0,0), (1280,70), (0,0,0), -1)
             cv2.putText(image, str(distance_cal), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
             
-            cv2.rectangle(image, (730,960-60), (1280,960), (0,0,0), -1)
+            cv2.rectangle(image, (630,960-60), (1280,960), (0,0,0), -1)
             if distance_cal < 25:
-                cv2.putText(image, "YOUR ARE CROUCHING", (750,960-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
+                cv2.putText(image, "YOUR ARE CROUCHING", (650,960-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
             else:
-                cv2.putText(image,"YOUR ARE UP STRAIGHT", (750,960-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
+                cv2.putText(image,"YOUR ARE UP STRAIGHT", (650,960-15), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (255,255,255), 2, cv2.LINE_AA)
 
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                     mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
@@ -525,3 +528,12 @@ def posture_detector():
                 break
 
     cv2.destroyAllWindows() 
+def take_rest(timer_count):
+    while cap.isOpened():
+        TIMER = int(timer_count)
+        while TIMER > 0:
+            time.sleep(1)
+            TIMER -= 1
+            print(TIMER)
+
+    cv2.destroyAllWindows()

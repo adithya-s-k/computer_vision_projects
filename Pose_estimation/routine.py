@@ -10,7 +10,7 @@ root.minsize(620,1000)
 root.maxsize(620,1000)
 
 
-def options():
+def exercise_callback():
     diff = tk.Tk(className='Input difficulty')
     diff.geometry("620x1000")
     diff.minsize(620,1000)
@@ -84,6 +84,9 @@ def options():
 def posture_detector_callback():
     posture_detector()
 
+def counter_time_callback():
+    curl_counter(2)
+
 L1 = ttk.Label(root, text="AIWA",font=("Helvetica",36,"bold"))
 L1.place(x=310, y=30, anchor="center")
 
@@ -92,10 +95,8 @@ L2.place(x=310, y=70, anchor="center")
 
 L3 = ttk.Label(root, text="What do you want to do?",font=("Helvetica",18,"bold"))
 L3.place(x=310, y=170, anchor="center")
-# E1 = tk.Entry(root, bd = 5)
-# E1.grid(row=0, column=1)
 
-MyButton1 = ttk.Button(root, text="Full Body Warm UP", command=options)
+MyButton1 = ttk.Button(root, text="Full Body Warm UP", command=exercise_callback)
 MyButton1.grid(row=4, column=4)
 MyButton1.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=200)
 
@@ -103,7 +104,7 @@ MyButton2 = ttk.Button(root, text="Sitting Posture Detection", command= posture_
 MyButton2.grid(row=4, column=4)
 MyButton2.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=450)
 
-MyButton3 = ttk.Button(root, text="Run and Jump")#, command=callback)
+MyButton3 = ttk.Button(root, text="Run and Jump", command=counter_time_callback)
 MyButton3.grid(row=4, column=4)
 MyButton3.place(bordermode=OUTSIDE, height=200, width=300,x=160,y=700)
 
