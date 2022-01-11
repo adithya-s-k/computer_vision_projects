@@ -78,20 +78,20 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                                )
             
             # Curl counter logic for left
-            if angle > 160:
-                stage ="Up"
-            if angle < 40 and stage == "Up":
+            if angle > 150:
+                    stage ="Up"
+            if angle < 60 and stage == "Up":
                 stage = "Down"
                 counter += 1
                 print("Left :", counter)
 
             # Curl counter logic for right
-            if angle_r > 160:
+            if angle_r > 150:
                 stage_r = "Up"
-            if angle_r < 40 and stage_r =="Up":
+            if angle_r < 60 and stage_r =="Up":
                 stage_r="Down"
                 counter_r +=1
-                print("Right : ",counter_r)                       
+                print("Right : ",counter_r)                      
         
         except:
             pass
