@@ -7,7 +7,11 @@ cap.set(4,960)
 
 # define a video capture object
 vid = cv2.VideoCapture(0)
-
+TIMER = int(10)
+while TIMER > 0:
+    time.sleep(1)
+    TIMER -= 1
+    print(TIMER)
 
 
 while(True):
@@ -22,12 +26,6 @@ while(True):
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    
-    TIMER = int(10)
-    while TIMER > 0:
-        time.sleep(1)
-        TIMER -= 1
-        print(TIMER)
 # After the loop release the cap object
 vid.release()
 # Destroy all the windows
