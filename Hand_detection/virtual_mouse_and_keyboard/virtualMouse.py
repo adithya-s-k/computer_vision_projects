@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 import HandTrackingModule as htm
 import time
-import autopy
+# import autopy
+from pynput.mouse import Button, Controller
 
 ##########################
 wCam, hCam = 640, 480
@@ -18,10 +19,18 @@ cap = cv2.VideoCapture(1)
 cap.set(3, wCam)
 cap.set(4, hCam)
 detector = htm.handDetector(maxHands=1)
-wScr, hScr = autopy.screen.size()
+# wScr, hScr = autopy.screen.size()
 # print(wScr, hScr)
+from win32api import GetSystemMetrics
+
+print("Width =", GetSystemMetrics(0))
+print("Height =", GetSystemMetrics(1))
+
+wScr = float(GetSystemMetrics(0))
+hScr = float(GetSystemMetrics(1))
 
 while True:
+    mouse = Controller()
     # 1. Find hand Landmarks
     success, img = cap.read()
     img = detector.findHands(img)
@@ -47,7 +56,7 @@ while True:
         clocY = plocY + (y3 - plocY) / smoothening
     
         # 7. Move Mouse
-        autopy.mouse.move(wScr - clocX, clocY)
+        mouse.position = (wScr - clocX, clocY)
         cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
         plocX, plocY = clocX, clocY
         
@@ -60,7 +69,7 @@ while True:
         if length < 40:
             cv2.circle(img, (lineInfo[4], lineInfo[5]),
             15, (0, 255, 0), cv2.FILLED)
-            autopy.mouse.click()
+            mouse.click(Button.left, 2)
     
     # 11. Frame Rate
     cTime = time.time()

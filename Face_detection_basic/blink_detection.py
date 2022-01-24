@@ -25,7 +25,7 @@ while True:
     if faces:
         face = faces[0]
         for id in idList:
-            cv2.circle(img, face[id], 5,color, cv2.FILLED)
+            cv2.circle(img, face[id], 3,color, cv2.FILLED)
 
         leftUp = face[159]
         leftDown = face[23]
@@ -43,7 +43,7 @@ while True:
             ratioList.pop(0)
         ratioAvg = sum(ratioList) / len(ratioList)
 
-        if ratioAvg < 35 and counter == 0:
+        if ratioAvg < 40 and counter == 0:
             blinkCounter += 1
             color = (0,200,0)
             counter = 1
@@ -56,11 +56,6 @@ while True:
         cvzone.putTextRect(img, f'Blink Count: {blinkCounter}', (50, 100),
                             colorR=color)
 
-        # imgPlot = plotY.update(ratioAvg, color)
-        # img = cv2.resize(img, (640, 360))
-        # imgStack = cvzone.stackImages([img, imgPlot], 2, 1)
-    # else:
-    #     img = cv2.resize(img, (640, 360))
 
     cv2.imshow("Image", img)
     cv2.waitKey(25)
