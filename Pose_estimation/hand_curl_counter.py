@@ -130,9 +130,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
-                                mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
-                                 )               
-             
+                                mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) )               
+
         cv2.imshow('Mediapipe Feed', image)
         
         
